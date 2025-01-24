@@ -2,11 +2,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Pages/Layout/Layout";
 import Home from "./Pages/Home/Home";
 import Products from "./Pages/Products/Products";
+import Categories from "./Pages/Categories/Categories";
+import Cart from "./Pages/Cart/Cart";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 import NotFound from "./Pages/NotFound/NotFound";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import CounterContextProvider from "./Context/CounterContext";
+import TokenContextProvider from "./Context/TokenContext";
+import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -14,8 +18,38 @@ export default function App() {
       path: "",
       element: <Layout />,
       children: [
-        { index: true, element: <Home /> },
-        { path: "products", element: <Products /> },
+        {
+          index: true,
+          element: (
+            <ProtectedRoutes>
+              <Home />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "products",
+          element: (
+            <ProtectedRoutes>
+              <Products />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "categories",
+          element: (
+            <ProtectedRoutes>
+              <Categories />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "cart",
+          element: (
+            <ProtectedRoutes>
+              <Cart />
+            </ProtectedRoutes>
+          ),
+        },
         { path: "productdetails", element: <ProductDetails /> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
@@ -24,8 +58,10 @@ export default function App() {
     },
   ]);
   return (
-    <CounterContextProvider>
-      <RouterProvider router={routes}></RouterProvider>;
-    </CounterContextProvider>
+    <TokenContextProvider>
+      <CounterContextProvider>
+        <RouterProvider router={routes}></RouterProvider>;
+      </CounterContextProvider>
+    </TokenContextProvider>
   );
 }

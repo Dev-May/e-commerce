@@ -7,13 +7,28 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import styles from "./Navbar.module.css";
-import { Link, NavLink } from "react-router-dom";
-import Products from "../../Pages/Products/Products";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CounterContext } from "../../Context/CounterContext";
+import { tokenContext } from "../../Context/TokenContext";
+import logo from "./../../assets/freshcart-logo.svg";
 
 export default function Navbar() {
   const { counter } = useContext(CounterContext);
+  const { token, setToken } = useContext(tokenContext);
+  const navigate = useNavigate();
+  console.log(token);
+
+  function logoutUser() {
+    // remove local storage
+    // set context null
+    // navigate to login
+
+    localStorage.removeItem("token");
+    setToken(null);
+    navigate("/login");
+  }
+
   return (
     <nav className="bg-slate-100 border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -22,66 +37,64 @@ export default function Navbar() {
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            {/* <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          /> */}
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white mx-2">
-              FreshMarket
-            </span>
+            <img src={logo} className="h-8 mx-2" alt="FreshCart Logo" />
           </Link>
 
-          <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <NavLink
-                  to={"/"}
-                  className="block py-2 px-3 text-gray-900 bg-blue-700 md:hover:text-blue-700 md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500"
-                  aria-current="page"
-                >
-                  Home {counter}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"cart"}
-                  className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Cart
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"products"}
-                  className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Products
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"categories"}
-                  className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Categories
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"brands"}
-                  className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Brands
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+          {token && (
+            <div
+              className="hidden w-full md:block md:w-auto"
+              id="navbar-default"
+            >
+              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-500">
+                <li>
+                  <NavLink
+                    to={"/"}
+                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                    aria-current="page"
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"cart"}
+                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                  >
+                    Cart
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"products"}
+                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                  >
+                    Products
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"categories"}
+                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                  >
+                    Categories
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"brands"}
+                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                  >
+                    Brands
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600"
           aria-controls="navbar-default"
           aria-expanded="false"
         >
@@ -103,80 +116,81 @@ export default function Navbar() {
           </svg>
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-500">
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                aria-current="page"
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaInstagram />
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaFacebook />
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className="block py-2 px-3  text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaTiktok />
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaTwitter />
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaLinkedin />
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to={""}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 <FaYoutube />
-              </NavLink>
+              </Link>
             </li>
-            <li>
-              <NavLink
-                to={"signout"}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                SignOut
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"login"}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Login
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"register"}
-                className="block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Register
-              </NavLink>
-            </li>
+            {token && (
+              <li>
+                <div
+                  onClick={() => {
+                    logoutUser();
+                  }}
+                  className="block cursor-pointer py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  SignOut
+                </div>
+              </li>
+            )}
+            {!token && (
+              <>
+                <li>
+                  <Link to={"login"} className="btn">
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"register"} className="btn">
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

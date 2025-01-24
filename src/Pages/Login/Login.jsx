@@ -2,13 +2,15 @@ import { Formik, useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { tokenContext } from "../../Context/TokenContext";
 import styles from "./Login.module.css";
 
 export default function Login() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setToken } = useContext(tokenContext);
 
   const initialValues = {
     email: "",
@@ -23,6 +25,9 @@ export default function Login() {
       .post("https://ecommerce.routemisr.com/api/v1/auth/signin", data)
       .then((response) => {
         console.log(response);
+
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
         setErrorMsg(null);
         setIsLoading(false);
         navigate("/");
@@ -69,8 +74,8 @@ export default function Login() {
             id="email"
             name="email"
             value={formik.values.email}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="name@flowbite.com"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter Your Email"
           />
           {formik.touched.email && formik.errors.email && (
             <small className="text-red-600">{formik.errors.email}</small>
@@ -90,7 +95,7 @@ export default function Login() {
             id="password"
             name="password"
             value={formik.values.password}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#0aad0a] focus:border-[#0aad0a] block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Enter Your Password"
           />
           {formik.touched.password && formik.errors.password && (
@@ -99,7 +104,7 @@ export default function Login() {
         </div>
         {isLoading ? (
           <button
-            className="text-white bg-blue-700 hover:bg-blue-800 disabled:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="text-white bg-[#0aad0a] hover:bg-[#0aad0acf] disabled:bg-[#0aad0aa4] focus:ring-4 focus:ring-[#0aad0aa4] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-[#0aad0a] dark:hover:bg-[#0aad0a] focus:outline-none dark:focus:ring-blue-800"
             disabled
           >
             Loading...
@@ -107,7 +112,7 @@ export default function Login() {
         ) : (
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 disabled:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            className="text-white bg-[#0aad0a] hover:bg-[#0aad0acf] disabled:bg-[#0aad0aa4] focus:ring-4 focus:ring-[#0aad0aa4] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-[#0aad0a] dark:hover:bg-[#0aad0a] focus:outline-none dark:focus:ring-blue-800"
             disabled={!formik.isValid}
           >
             Login
