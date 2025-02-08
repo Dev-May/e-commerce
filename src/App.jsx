@@ -4,6 +4,7 @@ import Home from "./Pages/Home/Home";
 import Products from "./Pages/Products/Products";
 import Categories from "./Pages/Categories/Categories";
 import Cart from "./Pages/Cart/Cart";
+import Brands from "./Pages/Brands/Brands";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 import NotFound from "./Pages/NotFound/NotFound";
 import Login from "./Pages/Login/Login";
@@ -50,7 +51,22 @@ export default function App() {
             </ProtectedRoutes>
           ),
         },
-        { path: "productdetails", element: <ProductDetails /> },
+        {
+          path: "brands",
+          element: (
+            <ProtectedRoutes>
+              <Brands />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "productdetails",
+          element: (
+            <ProtectedRoutes>
+              <ProductDetails />
+            </ProtectedRoutes>
+          ),
+        },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <NotFound /> },

@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import styles from "./Home.module.css";
-import { CounterContext } from "../../Context/CounterContext";
 import LatestProducts from "../../Components/LatestProducts/LatestProducts";
+import CategorySlider from "../../Components/CategorySlider/CategorySlider";
+import MainSlider from "../../Components/MainSlider/MainSlider";
 
 export default function Home() {
-  let { counter, setCounter } = useContext(CounterContext);
-
   return (
     <div>
+      <MainSlider />
+      <CategorySlider />
       <LatestProducts />
     </div>
   );

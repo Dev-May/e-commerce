@@ -9,15 +9,12 @@ import {
 import styles from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { CounterContext } from "../../Context/CounterContext";
 import { tokenContext } from "../../Context/TokenContext";
 import logo from "./../../assets/freshcart-logo.svg";
 
 export default function Navbar() {
-  const { counter } = useContext(CounterContext);
   const { token, setToken } = useContext(tokenContext);
   const navigate = useNavigate();
-  console.log(token);
 
   function logoutUser() {
     // remove local storage
