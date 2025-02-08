@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./LatestProducts.module.css";
 import axios from "axios";
 import ProductItem from "./../ProductItem/ProductItem";
 import Loader from "../Loader/Loader";
+import toast from "react-hot-toast";
+import { CartContext } from "../../Context/CartContext";
 
 export default function LatestProducts() {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { addToCart } = useContext(CartContext);
+
   async function getProducts() {
-    setIsLoading(true);
     await axios
       .get("https://ecommerce.routemisr.com/api/v1/products")
       .then((res) => {
-        setIsLoading(false);
         setProducts(res.data.data);
       })
       .catch((err) => {
-        setIsLoading(false);
         console.log(err);
       });
   }
@@ -24,6 +24,26 @@ export default function LatestProducts() {
   useEffect(() => {
     getProducts();
   }, []);
+
+  async function addProduct(id) {
+    const res = await addToCart(id);
+    console.log(res);
+
+    if (res.status === "success") {
+      toast.success(res.message, {
+        style: {
+          fontWeight: 600,
+          color: "#0aad0a",
+        },
+      });
+    } else {
+      toast.error("Somthing Wrong", {
+        style: {
+          fontWeight: 600,
+        },
+      });
+    }
+  }
 
   return (
     <div className="row justify-center">
@@ -33,7 +53,7 @@ export default function LatestProducts() {
             key={product.id}
             className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6"
           >
-            <ProductItem product={product} />
+            <ProductItem product={product} addProduct={addProduct} />
           </div>
         ))
       ) : (

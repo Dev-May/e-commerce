@@ -1,10 +1,12 @@
 import axios from "axios";
 import styles from "./ProductDetails.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Slider from "react-slick";
 import { Helmet } from "react-helmet";
+import { CartContext } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 const settings = {
   dots: true,
@@ -19,17 +21,39 @@ const settings = {
 
 export default function ProductDetails() {
   const { productId } = useParams();
+
   const [productDetails, setProductDetails] = useState({});
-  console.log(productId);
+
+  const { addToCart } = useContext(CartContext);
 
   async function getProductDetails() {
     await axios
       .get(`https://ecommerce.routemisr.com/api/v1/products/${productId}`)
       .then((res) => {
         setProductDetails(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((err) => console.log(err));
+  }
+
+  async function addProduct(id) {
+    const res = await addToCart(id);
+    console.log(res);
+
+    if (res.status === "success") {
+      toast.success(res.message, {
+        style: {
+          fontWeight: 600,
+          color: "#0aad0a",
+        },
+      });
+    } else {
+      toast.error("Somthing Wrong", {
+        style: {
+          fontWeight: 600,
+        },
+      });
+    }
   }
 
   useEffect(() => {
@@ -71,7 +95,12 @@ export default function ProductDetails() {
               {productDetails.ratingsAverage}
             </div>
           </div>
-          <div className="btn-green w-full">Add To Cart</div>
+          <div
+            className="btn-green w-full"
+            onClick={() => addProduct(productDetails.id)}
+          >
+            Add To Cart
+          </div>
         </div>
       </div>
     </div>

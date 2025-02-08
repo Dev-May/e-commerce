@@ -14,6 +14,8 @@ import TokenContextProvider from "./Context/TokenContext";
 import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 import { Offline, Online } from "react-detect-offline";
 import { CiWifiOff } from "react-icons/ci";
+import CartContextProvider from "./Context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -77,15 +79,18 @@ export default function App() {
   ]);
   return (
     <TokenContextProvider>
-      <CounterContextProvider>
-        <Offline>
-          <div className="offline fixed bottom-2 right-4 bg-green-100 p-3 font-semibold z-50 rounded">
-            <CiWifiOff className="inline mx-3 text-xl" />
-            You Are Now Offline!
-          </div>
-        </Offline>
-        <RouterProvider router={routes}></RouterProvider>;
-      </CounterContextProvider>
+      <CartContextProvider>
+        <CounterContextProvider>
+          <Offline>
+            <div className="offline fixed bottom-2 right-4 bg-green-100 p-3 font-semibold z-50 rounded">
+              <CiWifiOff className="inline mx-3 text-xl" />
+              You Are Now Offline!
+            </div>
+          </Offline>
+          <Toaster position="bottom-right" />
+          <RouterProvider router={routes}></RouterProvider>;
+        </CounterContextProvider>
+      </CartContextProvider>
     </TokenContextProvider>
   );
 }
