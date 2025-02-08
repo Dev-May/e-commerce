@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./LatestProducts.module.css";
 import axios from "axios";
 import ProductItem from "./../ProductItem/ProductItem";
+import Loader from "../Loader/Loader";
 
 export default function LatestProducts() {
   const [products, setProducts] = useState([]);
@@ -25,8 +26,8 @@ export default function LatestProducts() {
   }, []);
 
   return (
-    <div className="row">
-      {products.length > 0 &&
+    <div className="row justify-center">
+      {products.length > 0 ? (
         products.map((product) => (
           <div
             key={product.id}
@@ -34,7 +35,10 @@ export default function LatestProducts() {
           >
             <ProductItem product={product} />
           </div>
-        ))}
+        ))
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }
