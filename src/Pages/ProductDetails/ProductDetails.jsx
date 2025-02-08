@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import Slider from "react-slick";
+import { Helmet } from "react-helmet";
 
 const settings = {
   dots: true,
@@ -35,8 +36,15 @@ export default function ProductDetails() {
     getProductDetails();
   }, []);
 
+  useEffect(() => {
+    document.title = productDetails.title;
+  }, [productDetails]);
+
   return (
     <div className="row my-14 items-center">
+      {/* <Helmet>
+        <title>{productDetails.title}</title>
+      </Helmet> */}
       <div className="w-1/4">
         <Slider {...settings}>
           {productDetails.images?.map((image, index) => (
