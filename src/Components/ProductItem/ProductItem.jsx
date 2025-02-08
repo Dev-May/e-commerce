@@ -14,7 +14,7 @@ export default function ProductItem({ product }) {
         <div className="flex justify-between">
           <p>{product.price} EGP</p>
           <div className="flex items-center">
-            <FaStar className="text-yellow-300 inline mx-1" />
+            <FaStar className="text-yellow-300 mx-1" />
             {product.ratingsAverage}
           </div>
         </div>
