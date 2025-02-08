@@ -67,7 +67,7 @@ export default function CategorySlider() {
       <Slider {...settings}>
         {categories.map((category) => (
           <div key={category._id}>
-            {console.log(category)}
+            {/* {console.log(category)} */}
             <img
               src={category.image}
               className="w-full h-[400px]"

@@ -60,7 +60,7 @@ export default function App() {
           ),
         },
         {
-          path: "productdetails",
+          path: "productdetails/:productId",
           element: (
             <ProtectedRoutes>
               <ProductDetails />
