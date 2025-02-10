@@ -8,13 +8,17 @@ import {
 } from "react-icons/fa";
 import styles from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { tokenContext } from "../../Context/TokenContext";
 import logo from "./../../assets/freshcart-logo.svg";
+import { FiShoppingCart } from "react-icons/fi";
+import { CartContext } from "../../Context/CartContext";
 
 export default function Navbar() {
   const { token, setToken } = useContext(tokenContext);
   const navigate = useNavigate();
+
+  const { numOfCartItems, getLoggedUserCart } = useContext(CartContext);
 
   function logoutUser() {
     // remove local storage
@@ -25,6 +29,15 @@ export default function Navbar() {
     setToken(null);
     navigate("/login");
   }
+
+  // async function getCartData() {
+  //   const data = await getLoggedUserCart();
+  //   setCartData(data);
+  // }
+
+  // useEffect(() => {
+  //   getCartData();
+  // }, []);
 
   return (
     <nav className="bg-slate-100 border-gray-200 dark:bg-gray-900">
@@ -50,14 +63,6 @@ export default function Navbar() {
                     aria-current="page"
                   >
                     Home
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to={"cart"}
-                    className="block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
-                  >
-                    Cart
                   </NavLink>
                 </li>
                 <li>
@@ -163,16 +168,30 @@ export default function Navbar() {
               </Link>
             </li>
             {token && (
-              <li>
-                <div
-                  onClick={() => {
-                    logoutUser();
-                  }}
-                  className="block cursor-pointer py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  SignOut
-                </div>
-              </li>
+              <>
+                <li>
+                  <NavLink
+                    to={"cart"}
+                    className="relative block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
+                  >
+                    <FiShoppingCart className="text-xl font-semibold" />
+                    <span className="absolute -top-3 -right-3 w-6 h-6 text-white bg-red-600 rounded-full border border-white flex justify-center items-center text-xs">
+                      {/* {cartData?.numOfCartItems} */}
+                      {numOfCartItems}
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <div
+                    onClick={() => {
+                      logoutUser();
+                    }}
+                    className="block cursor-pointer py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-500 dark:hover:text-white md:dark:hover:bg-transparent"
+                  >
+                    SignOut
+                  </div>
+                </li>
+              </>
             )}
             {!token && (
               <>

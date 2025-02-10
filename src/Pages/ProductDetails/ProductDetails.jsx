@@ -24,23 +24,22 @@ export default function ProductDetails() {
 
   const [productDetails, setProductDetails] = useState({});
 
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, setNumOfCartItems } = useContext(CartContext);
 
   async function getProductDetails() {
     await axios
       .get(`https://ecommerce.routemisr.com/api/v1/products/${productId}`)
       .then((res) => {
         setProductDetails(res.data.data);
-        // console.log(res.data.data);
       })
       .catch((err) => console.log(err));
   }
 
   async function addProduct(id) {
     const res = await addToCart(id);
-    console.log(res);
 
     if (res.status === "success") {
+      setNumOfCartItems(res.numOfCartItems);
       toast.success(res.message, {
         style: {
           fontWeight: 600,

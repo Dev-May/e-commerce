@@ -13,6 +13,7 @@ export default function Cart() {
     removeCartItem,
     updateCartProductQuantity,
     clearUserCart,
+    setNumOfCartItems,
   } = useContext(CartContext);
   const [cartData, setCartData] = useState(null);
 
@@ -22,8 +23,9 @@ export default function Cart() {
   }
 
   async function deleteProduct(id) {
-    const x = await removeCartItem(id);
-    setCartData(x.data);
+    const response = await removeCartItem(id);
+    setNumOfCartItems(response.numOfCartItems);
+    setCartData(response.data);
   }
 
   async function updateProductQuantity(id, count) {
