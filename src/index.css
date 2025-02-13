@@ -64,7 +64,7 @@
     @apply block py-2 px-3 text-gray-900 md:hover:text-[#0aad0a] md:p-0 dark:text-white md:dark:hover:text-[#0aad0a] dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent;
   }
   .btn-green {
-    @apply text-white hover:text-white text-center my-2 cursor-pointer bg-[#0aad0a] hover:bg-[#0aad0acf] disabled:bg-[#0aad0aa4] focus:ring-4 focus:ring-[#0aad0aa4] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-[#0aad0a] dark:hover:bg-[#0aad0a] focus:outline-none dark:focus:ring-blue-800;
+    @apply text-white hover:text-white text-center my-2 cursor-pointer bg-[#0aad0a] hover:bg-[#0aad0acf] disabled:bg-[#0aad0aa4] font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-[#0aad0a] dark:hover:bg-[#0aad0a];
   }
 }
 
