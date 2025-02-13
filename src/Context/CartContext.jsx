@@ -57,10 +57,37 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
 
+  function cashOnDelivery(data) {
+    return axios
+      .post(`https://ecommerce.routemisr.com/api/v1/orders/${cartId}`, data, {
+        headers,
+      })
+      .then((res) => res)
+      .catch((err) => err);
+  }
+
+  function onlinePayment(data) {
+    return axios
+      .post(
+        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}`,
+        data,
+        {
+          params: {
+            url: "http://localhost:5173",
+          },
+          headers,
+        }
+      )
+      .then((res) => res.data)
+      .catch((err) => err);
+  }
+
   async function getCartData() {
     const data = await getLoggedUserCart();
     setNumOfCartItems(data.numOfCartItems);
     setCartId(data.cartId);
+    console.log("Cart API Response:", data.cartId);
   }
 
   useEffect(() => {
@@ -78,6 +105,9 @@ export default function CartContextProvider({ children }) {
         numOfCartItems,
         setNumOfCartItems,
         setCartId,
+        cashOnDelivery,
+        cartId,
+        onlinePayment,
       }}
     >
       {children}
