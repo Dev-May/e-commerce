@@ -175,7 +175,7 @@ export default function Navbar() {
                     className="relative block text-gray-900 md:hover:text-[#0aad0a] py-1 px-2 rounded-md dark:text-white md:dark:text-[#0aad0a]"
                   >
                     <FiShoppingCart className="text-xl font-semibold" />
-                    <span className="absolute -top-3 -right-3 w-6 h-6 text-white bg-red-600 rounded-full border border-white flex justify-center items-center text-xs">
+                    <span className="absolute -top-3 -right-3 w-6 h-6 text-white font-semibold bg-yellow-300 rounded-full border border-white flex justify-center items-center text-xs">
                       {/* {cartData?.numOfCartItems} */}
                       {numOfCartItems}
                     </span>
