@@ -8,26 +8,12 @@ import { CartContext } from "../../Context/CartContext";
 
 export default function LatestProducts() {
   const [products, setProducts] = useState([]);
-  const { addToCart } = useContext(CartContext);
-
-  async function getProducts() {
-    await axios
-      .get("https://ecommerce.routemisr.com/api/v1/products")
-      .then((res) => {
-        setProducts(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const { addToCart, setNumOfCartItems, setCartId } = useContext(CartContext);
 
   async function addProduct(id) {
     const res = await addToCart(id);
-    console.log(res);
+    setNumOfCartItems(res.numOfCartItems);
+    // setCartId(res.cartId);
 
     if (res.status === "success") {
       toast.success(res.message, {
@@ -45,8 +31,23 @@ export default function LatestProducts() {
     }
   }
 
+  async function getProducts() {
+    await axios
+      .get("https://ecommerce.routemisr.com/api/v1/products")
+      .then((res) => {
+        setProducts(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
-    <div className="row justify-center">
+    <div className="row">
       {products.length > 0 ? (
         products.map((product) => (
           <div
