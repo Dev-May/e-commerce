@@ -2,10 +2,10 @@ import { Helmet } from "react-helmet";
 import styles from "./Cart.module.css";
 import { useContext } from "react";
 import { CartContext } from "../../Context/CartContext";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { FaTrashCan } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const {
@@ -16,6 +16,8 @@ export default function Cart() {
     setNumOfCartItems,
   } = useContext(CartContext);
   const [cartData, setCartData] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const navigate = useNavigate();
 
   async function getCartData() {
     const data = await getLoggedUserCart();
@@ -180,14 +182,34 @@ export default function Cart() {
                 <tr>
                   <td colSpan="5" className="text-center">
                     {cartData.products?.length > 0 && (
-                      <button
-                        onClick={() => {
-                          clearCart();
-                        }}
-                        className="text-white hover:text-white text-center my-2 cursor-pointer bg-red-700 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-700 dark:hover:bg-bg-red-600"
-                      >
-                        Delete Cart
-                      </button>
+                      <>
+                        <button
+                          onClick={() => {
+                            clearCart();
+                          }}
+                          className="text-white hover:text-white text-center my-2 cursor-pointer bg-red-700 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-700 dark:hover:bg-bg-red-600"
+                        >
+                          Delete Cart
+                        </button>
+                        <select
+                          name="payment"
+                          id="payment"
+                          onChange={(e) => {
+                            setPaymentMethod(e.target.value);
+                          }}
+                        >
+                          <option value="cash">Cash</option>
+                          <option value="online">Online</option>
+                        </select>
+                        <button
+                          className="btn-green"
+                          onClick={() => {
+                            navigate("/checkout", { state: paymentMethod });
+                          }}
+                        >
+                          Checkout
+                        </button>
+                      </>
                     )}
                   </td>
                 </tr>
