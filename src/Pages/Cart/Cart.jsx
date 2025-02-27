@@ -8,6 +8,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { GiShoppingCart } from "react-icons/gi";
 
+
 export default function Cart() {
   const {
     getLoggedUserCart,

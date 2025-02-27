@@ -53,6 +53,7 @@ export default function CartContextProvider({ children }) {
   function clearUserCart() {
     return axios
       .delete("https://ecommerce.routemisr.com/api/v1/cart", { headers })
+
       .then((res) => {
         setNumOfCartItems(0);
         return res.data;
@@ -70,8 +71,6 @@ export default function CartContextProvider({ children }) {
   }
 
   function onlinePayment(data) {
-    console.log(cartId);
-
     return axios
       .post(
         // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`

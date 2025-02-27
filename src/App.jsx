@@ -19,6 +19,13 @@ import { Toaster } from "react-hot-toast";
 import CheckOut from "./Pages/CheckOut/CheckOut";
 import AllOrders from "./Pages/AllOrders/AllOrders";
 
+import CheckOut from "./Pages/CheckOut/CheckOut";
+import AllOrders from "./Pages/AllOrders/AllOrders";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+
 export default function App() {
   const routes = createBrowserRouter([
     {
@@ -95,20 +102,26 @@ export default function App() {
       ],
     },
   ]);
+
+  const queryClient = new QueryClient();
+
   return (
-    <TokenContextProvider>
-      <CartContextProvider>
-        <CounterContextProvider>
-          <Offline>
-            <div className="offline fixed bottom-2 right-4 bg-green-100 p-3 font-semibold z-50 rounded">
-              <CiWifiOff className="inline mx-3 text-xl" />
-              You Are Now Offline!
-            </div>
-          </Offline>
-          <Toaster position="bottom-right" />
-          <RouterProvider router={routes}></RouterProvider>;
-        </CounterContextProvider>
-      </CartContextProvider>
-    </TokenContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <TokenContextProvider>
+        <CartContextProvider>
+          <CounterContextProvider>
+            <Offline>
+              <div className="offline fixed bottom-2 right-4 bg-green-100 p-3 font-semibold z-50 rounded">
+                <CiWifiOff className="inline mx-3 text-xl" />
+                You Are Now Offline!
+              </div>
+            </Offline>
+            <Toaster position="bottom-right" />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <RouterProvider router={routes}></RouterProvider>;
+          </CounterContextProvider>
+        </CartContextProvider>
+      </TokenContextProvider>
+    </QueryClientProvider>
   );
 }
