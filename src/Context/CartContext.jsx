@@ -53,7 +53,11 @@ export default function CartContextProvider({ children }) {
   function clearUserCart() {
     return axios
       .delete("https://ecommerce.routemisr.com/api/v1/cart", { headers })
-      .then((res) => res.data)
+
+      .then((res) => {
+        setNumOfCartItems(0);
+        return res.data;
+      })
       .catch((err) => err);
   }
 
