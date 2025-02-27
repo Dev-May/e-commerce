@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Loader from "../../Components/Loader/Loader";
 import { FaTrashCan } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { GiShoppingCart } from "react-icons/gi";
 
 export default function Cart() {
   const {
@@ -14,6 +15,7 @@ export default function Cart() {
     updateCartProductQuantity,
     clearUserCart,
     setNumOfCartItems,
+    setCartId,
   } = useContext(CartContext);
   const [cartData, setCartData] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -21,7 +23,10 @@ export default function Cart() {
 
   async function getCartData() {
     const data = await getLoggedUserCart();
+    console.log(data.cartId);
+
     setCartData(data.data);
+    setCartId(data.cartId);
   }
 
   async function deleteProduct(id) {
@@ -45,7 +50,7 @@ export default function Cart() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col">
       <Helmet>
         <title>Cart</title>
       </Helmet>
@@ -179,7 +184,7 @@ export default function Cart() {
                     </td>
                   </tr>
                 )}
-                <tr>
+                {/* <tr>
                   <td colSpan="5" className="text-center">
                     {cartData.products?.length > 0 && (
                       <>
@@ -210,6 +215,42 @@ export default function Cart() {
                           Checkout
                         </button>
                       </>
+                    )}
+                  </td>
+                </tr> */}
+                <tr>
+                  <td colSpan="5" className="py-6">
+                    {cartData.products?.length > 0 && (
+                      <div className="flex items-center justify-around gap-6 bg-gray-50 p-4 rounded-lg">
+                        <div className="flex items-center">
+                          <select
+                            id="payment"
+                            name="payment"
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                            className="mr-2 rounded-md shadow-sm"
+                          >
+                            <option value="cash">💵 Cash</option>
+                            <option value="online">💳 Online</option>
+                          </select>
+
+                          <button
+                            onClick={() =>
+                              navigate("/checkout", { state: paymentMethod })
+                            }
+                            className="btn-green"
+                          >
+                            <GiShoppingCart className="inline text-2xl" />{" "}
+                            Checkout
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={clearCart}
+                          className="px-4 py-2 text-sm text-red-600 border border-red-700 rounded-lg hover:bg-red-600 hover:text-white transition-all flex items-center"
+                        >
+                          <FaTrashCan className="inline mx-1" /> Clear Cart
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>
