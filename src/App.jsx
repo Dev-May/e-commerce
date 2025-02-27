@@ -16,6 +16,8 @@ import { Offline, Online } from "react-detect-offline";
 import { CiWifiOff } from "react-icons/ci";
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
+import CheckOut from "./Pages/CheckOut/CheckOut";
+import AllOrders from "./Pages/AllOrders/AllOrders";
 
 import CheckOut from "./Pages/CheckOut/CheckOut";
 import AllOrders from "./Pages/AllOrders/AllOrders";
